@@ -14,7 +14,7 @@ use markers::*;
 
 use super::App;
 
-#[derive(Clone, Default)]
+#[derive(Default)]
 pub struct AppBuilder<Addr = No> {
     addr: String,
     clusters: Vec<Cluster>,
@@ -28,21 +28,21 @@ impl AppBuilder {
 }
 
 impl AppBuilder<No> {
-    pub fn addr(&self, addr: impl Into<String>) -> AppBuilder<Yes> {
+    pub fn addr(self, addr: impl Into<String>) -> AppBuilder<Yes> {
         AppBuilder {
             addr: addr.into(),
-            clusters: self.clusters.clone(),
+            clusters: self.clusters,
             __marker_addr: PhantomData,
         }
     }
 }
 
 impl<A> AppBuilder<A> {
-    pub fn add_cluster(&self, cluster: Cluster) -> AppBuilder<A> {
-        let mut clusters = self.clusters.clone();
+    pub fn add_cluster(self, cluster: Cluster) -> AppBuilder<A> {
+        let mut clusters = self.clusters;
         clusters.push(cluster);
         AppBuilder {
-            addr: self.addr.clone(),
+            addr: self.addr,
             clusters,
             __marker_addr: PhantomData,
         }
@@ -55,21 +55,5 @@ impl AppBuilder<Yes> {
             addr: self.addr,
             clusters: self.clusters,
         }
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn app_builder_test() {
-        let app = AppBuilder::new()
-            .addr("127.0.0.1:8080")
-            .add_cluster(Cluster)
-            .add_cluster(Cluster)
-            .build();
-
-        println!("{:#?}", app)
     }
 }
