@@ -2,7 +2,7 @@ use tokio::{io::AsyncReadExt, net::TcpStream};
 
 use crate::prelude::Result;
 
-use crate::prelude::Error;
+use crate::prelude::error::*;
 
 pub async fn parse_path(mut stream: TcpStream) -> Result<Vec<String>> {
     let mut buf = vec![0; 1024];
@@ -19,9 +19,15 @@ pub async fn parse_path(mut stream: TcpStream) -> Result<Vec<String>> {
                 let segments = path.split('/').map(|s| s.to_string()).collect::<Vec<_>>();
                 Ok(segments)
             }
-            None => Err(Error::PathParse),
+            None => Err(Error::Light {
+                message: "Error while path parsing".into(),
+                kind: LightError::PathParse,
+            }),
         }
     } else {
-        Err(Error::PathParse)
+        Err(Error::Light {
+            message: "Error while path parsing".into(),
+            kind: LightError::PathParse,
+        })
     }
 }
