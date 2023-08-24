@@ -4,6 +4,7 @@ use tokio::net::TcpStream;
 
 use self::service::Service;
 
+pub mod core;
 pub mod service;
 
 pub async fn check_cluster() {}
