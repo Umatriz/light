@@ -8,10 +8,9 @@ edition = "2021"
 [dependencies]
 tokio = { version = "1.32.0", features = ["full"] }
 
-http = "0.2.9"
-httparse = "1.8.0"
+http-types = "2.12.0"
 async-trait = "0.1.73"
 bytes = "1.4.0"
+serde = { version = "1.0.186", features = ["derive"] }
 
 thiserror = "1.0.47"
-anyhow = "1.0"

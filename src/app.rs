@@ -2,16 +2,12 @@ use std::rc::Rc;
 
 use tokio::net::TcpListener;
 
-use crate::clusters::Cluster;
-
-use crate::prelude::Result;
-
-pub mod builder;
+use crate::{core::Core, prelude::Result};
 
 #[derive(Debug)]
 pub struct App {
     addr: String,
-    clusters: Vec<Cluster>,
+    clusters: Vec<Box<dyn Core>>,
 }
 
 impl App {

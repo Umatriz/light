@@ -4,7 +4,8 @@ use tokio::{
 };
 
 pub mod app;
-pub mod clusters;
+pub mod core;
+mod route;
 
 pub mod prelude;
 pub mod utils;
@@ -22,12 +23,6 @@ async fn process_socket(mut stream: TcpStream) {
     let mut buf = vec![0; 1024];
     let m = stream.read(&mut buf).await.unwrap();
 
-    let mut headers = [httparse::EMPTY_HEADER; 16];
-
-    let mut req = httparse::Request::new(&mut headers);
-    let res = req.parse(&buf[..m]).unwrap();
-
-    println!("{:#?}", req);
     println!("Req: {}", String::from_utf8_lossy(&buf[..m]))
 }
 
