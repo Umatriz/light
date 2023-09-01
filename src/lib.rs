@@ -3,12 +3,12 @@ use tokio::{
     net::{TcpListener, TcpStream},
 };
 
-pub mod app;
-pub mod core;
-mod route;
+mod app;
+mod core;
+mod endpoint;
+mod http;
 
 pub mod prelude;
-pub mod utils;
 
 pub async fn req() -> Result<(), Box<dyn std::error::Error>> {
     let listener = TcpListener::bind("127.0.0.1:8080").await?;
